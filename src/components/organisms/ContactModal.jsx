@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import FormField from "@/components/molecules/FormField";
-import ApperIcon from "@/components/ApperIcon";
-import { toast } from "react-toastify";
 
 const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
   const [formData, setFormData] = useState({
@@ -83,20 +83,21 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
+<motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-exit={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-[100]"
             onClick={onClose}
           />
-<motion.div
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-transition={{ duration: 0.2 }}
-            className="fixed inset-x-4 top-[50vh] -translate-y-1/2 md:left-1/2 md:-translate-x-1/2 w-full md:max-w-2xl bg-surface rounded-lg shadow-xl z-[200] max-h-[90vh] overflow-y-auto"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 flex items-center justify-center p-4 z-[200]"
           >
+            <div className="w-full max-w-2xl bg-surface rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-surface border-b border-slate-200 px-6 py-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-slate-800">
                 {contact ? "Edit Contact" : "New Contact"}
@@ -176,8 +177,9 @@ transition={{ duration: 0.2 }}
                 <Button type="submit">
                   {contact ? "Update Contact" : "Create Contact"}
                 </Button>
-              </div>
+</div>
             </form>
+            </div>
           </motion.div>
         </>
       )}
