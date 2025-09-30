@@ -89,7 +89,7 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-50"
+className="fixed inset-0 bg-black/50 z-[100]"
             onClick={onClose}
           />
 <motion.div
@@ -97,7 +97,7 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-4 top-[50vh] -translate-y-1/2 md:left-1/2 md:-translate-x-1/2 w-full md:max-w-2xl bg-surface rounded-lg shadow-xl z-50 max-h-[90vh] overflow-y-auto"
+className="fixed inset-x-4 top-[50vh] -translate-y-1/2 md:left-1/2 md:-translate-x-1/2 w-full md:max-w-2xl bg-surface rounded-lg shadow-xl z-[200] max-h-[90vh] overflow-y-auto"
           >
             <div className="sticky top-0 bg-surface border-b border-slate-200 px-6 py-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-slate-800">
