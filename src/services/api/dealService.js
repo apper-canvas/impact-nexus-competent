@@ -36,13 +36,14 @@ export const dealService = {
     return deals.filter(d => d.contactId === parseInt(contactId));
   },
 
-  async create(dealData) {
+async create(dealData) {
     await delay(300);
     const deals = loadDeals();
     const maxId = deals.reduce((max, d) => Math.max(max, d.Id), 0);
     const newDeal = {
       ...dealData,
       Id: maxId + 1,
+      salesRepId: dealData.salesRepId ? parseInt(dealData.salesRepId) : undefined,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -51,7 +52,7 @@ export const dealService = {
     return { ...newDeal };
   },
 
-  async update(id, dealData) {
+async update(id, dealData) {
     await delay(300);
     const deals = loadDeals();
     const index = deals.findIndex(d => d.Id === parseInt(id));
@@ -61,6 +62,7 @@ export const dealService = {
       ...deals[index],
       ...dealData,
       Id: parseInt(id),
+      salesRepId: dealData.salesRepId ? parseInt(dealData.salesRepId) : undefined,
       updatedAt: new Date().toISOString()
     };
     saveDeals(deals);

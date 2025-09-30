@@ -6,27 +6,31 @@ import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import { dealService } from "@/services/api/dealService";
 import { contactService } from "@/services/api/contactService";
+import { salesRepService } from "@/services/api/salesRepService";
 import { activityService } from "@/services/api/activityService";
 import { toast } from "react-toastify";
 
 const Pipeline = ({ onCreateDeal, createDealTrigger }) => {
   const [deals, setDeals] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [salesReps, setSalesReps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDeal, setSelectedDeal] = useState(null);
 
-  const loadData = async () => {
+const loadData = async () => {
     setLoading(true);
     setError("");
     try {
-      const [dealsData, contactsData] = await Promise.all([
+      const [dealsData, contactsData, salesRepsData] = await Promise.all([
         dealService.getAll(),
-        contactService.getAll()
+        contactService.getAll(),
+        salesRepService.getAll()
       ]);
       setDeals(dealsData);
       setContacts(contactsData);
+      setSalesReps(salesRepsData);
     } catch (err) {
       setError("Failed to load pipeline data");
     } finally {
@@ -131,11 +135,12 @@ const Pipeline = ({ onCreateDeal, createDealTrigger }) => {
         />
       )}
 
-      <DealModal
+<DealModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         deal={selectedDeal}
         contacts={contacts}
+        salesReps={salesReps}
         onSave={handleSave}
       />
     </div>

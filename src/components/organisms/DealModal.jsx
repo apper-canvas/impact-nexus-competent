@@ -7,10 +7,11 @@ import FormField from "@/components/molecules/FormField";
 
 const STAGES = ["Lead", "Qualified", "Proposal", "Negotiation", "Closed"];
 
-const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
+const DealModal = ({ isOpen, onClose, deal, contacts, salesReps, onSave }) => {
   const [formData, setFormData] = useState({
     title: "",
     contactId: "",
+    salesRepId: "",
     stage: "Lead",
     value: "",
     expectedCloseDate: "",
@@ -19,20 +20,22 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
 
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
+useEffect(() => {
     if (deal) {
       setFormData({
         title: deal.title || "",
         contactId: deal.contactId?.toString() || "",
+        salesRepId: deal.salesRepId?.toString() || "",
         stage: deal.stage || "Lead",
         value: deal.value?.toString() || "",
         expectedCloseDate: deal.expectedCloseDate || "",
         notes: deal.notes || ""
       });
-    } else {
+} else {
       setFormData({
         title: "",
         contactId: "",
+        salesRepId: "",
         stage: "Lead",
         value: "",
         expectedCloseDate: "",
@@ -66,10 +69,10 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
       setErrors(newErrors);
       return;
     }
-
-    const dealData = {
+const dealData = {
       ...formData,
       contactId: parseInt(formData.contactId),
+      salesRepId: formData.salesRepId ? parseInt(formData.salesRepId) : undefined,
       value: parseFloat(formData.value)
     };
 
@@ -164,14 +167,54 @@ className="fixed inset-0 bg-black/50 z-[100]"
                         {stage}
                       </option>
                     ))}
-                  </select>
-                </div>
+))}
+                </select>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <FormField
-                  label="Deal Value"
-                  name="value"
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium text-slate-700">
+                  Sales Rep
+                </label>
+                <select
+                  name="salesRepId"
+                  value={formData.salesRepId}
+                  onChange={handleChange}
+                  className="w-full h-10 px-3 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Select a sales rep</option>
+                  {salesReps.map((salesRep) => (
+                    <option key={salesRep.Id} value={salesRep.Id}>
+                      {salesRep.name} - {salesRep.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div className="space-y-1.5">
+                <label className="block text-sm font-medium text-slate-700">
+                  Stage
+                </label>
+                <select
+                  name="stage"
+                  value={formData.stage}
+                  onChange={handleChange}
+                  className="w-full h-10 px-3 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  {STAGES.map((stage) => (
+                    <option key={stage} value={stage}>
+                      {stage}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <FormField
+                label="Deal Value"
+                name="value"
                   type="number"
                   value={formData.value}
                   onChange={handleChange}
