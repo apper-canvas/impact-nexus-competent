@@ -166,7 +166,6 @@ className="fixed inset-0 bg-black/50 z-[100]"
                       <option key={stage} value={stage}>
                         {stage}
                       </option>
-                    ))}
 ))}
                 </select>
               </div>
@@ -187,27 +186,7 @@ className="fixed inset-0 bg-black/50 z-[100]"
                       {salesRep.name} - {salesRep.title}
                     </option>
                   ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-<div className="space-y-1.5">
-                <label className="block text-sm font-medium text-slate-700">
-                  Stage
-                </label>
-                <select
-                  name="stage"
-                  value={formData.stage}
-                  onChange={handleChange}
-                  className="w-full h-10 px-3 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                >
-                  {STAGES.map((stage) => (
-                    <option key={stage} value={stage}>
-                      {stage}
-                    </option>
-                  ))}
-                </select>
+</select>
               </div>
             </div>
 
@@ -215,22 +194,21 @@ className="fixed inset-0 bg-black/50 z-[100]"
               <FormField
                 label="Deal Value"
                 name="value"
-                  type="number"
-                  value={formData.value}
-                  onChange={handleChange}
-                  error={errors.value}
-                  required
-                  placeholder="e.g. 45000"
-                />
-                <FormField
-                  label="Expected Close Date"
-                  name="expectedCloseDate"
-                  type="date"
-                  value={formData.expectedCloseDate}
-                  onChange={handleChange}
-                />
-              </div>
-
+                type="number"
+                value={formData.value}
+                onChange={handleChange}
+                error={errors.value}
+                required
+                placeholder="e.g. 45000"
+              />
+              <FormField
+                label="Expected Close Date"
+                name="expectedCloseDate"
+                type="date"
+                value={formData.expectedCloseDate}
+                onChange={handleChange}
+              />
+            </div>
               <div className="mb-6">
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
                   Notes
