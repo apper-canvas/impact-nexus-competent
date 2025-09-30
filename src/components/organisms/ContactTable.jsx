@@ -20,9 +20,16 @@ const ContactTable = ({ contacts, onEdit, onDelete }) => {
     }
   };
 
-  const sortedContacts = [...contacts].sort((a, b) => {
-    const aVal = a[sortField];
-    const bVal = b[sortField];
+const sortedContacts = [...contacts].sort((a, b) => {
+    const fieldMap = {
+      'name': 'name_c',
+      'company': 'company_c',
+      'email': 'email_c',
+      'phone': 'phone_c'
+    };
+    const mappedField = fieldMap[sortField] || sortField;
+    const aVal = a[mappedField];
+    const bVal = b[mappedField];
     const modifier = sortDirection === "asc" ? 1 : -1;
     return aVal > bVal ? modifier : -modifier;
   });
@@ -77,28 +84,28 @@ const ContactTable = ({ contacts, onEdit, onDelete }) => {
               >
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-3">
-                    <Avatar name={contact.name} size="md" />
-                    <span className="text-sm font-medium text-slate-800">{contact.name}</span>
+<Avatar name={contact.name_c} size="md" />
+                    <span className="text-sm font-medium text-slate-800">{contact.name_c}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4">
-                  <span className="text-sm text-slate-600">{contact.company}</span>
+<td className="px-6 py-4">
+                  <span className="text-sm text-slate-600">{contact.company_c}</span>
+                </td>
+<td className="px-6 py-4">
+                  <span className="text-sm text-slate-600">{contact.email_c}</span>
+                </td>
+<td className="px-6 py-4">
+                  <span className="text-sm text-slate-600">{contact.phone_c}</span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="text-sm text-slate-600">{contact.email}</span>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="text-sm text-slate-600">{contact.phone}</span>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-wrap gap-1">
-                    {contact.tags.slice(0, 2).map((tag) => (
+<div className="flex flex-wrap gap-1">
+                    {(contact.tags_c || '').split(',').filter(Boolean).slice(0, 2).map((tag) => (
                       <Badge key={tag} variant="default">
-                        {tag}
+                        {tag.trim()}
                       </Badge>
                     ))}
-                    {contact.tags.length > 2 && (
-                      <Badge variant="default">+{contact.tags.length - 2}</Badge>
+                    {(contact.tags_c || '').split(',').filter(Boolean).length > 2 && (
+                      <Badge variant="default">+{(contact.tags_c || '').split(',').filter(Boolean).length - 2}</Badge>
                     )}
                   </div>
                 </td>

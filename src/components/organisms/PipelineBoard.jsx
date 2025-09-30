@@ -14,8 +14,7 @@ const STAGES = [
 ];
 
 const DealCard = ({ deal, contact, onDragStart, onEdit }) => {
-  const daysInStage = differenceInDays(new Date(), new Date(deal.updatedAt));
-
+const daysInStage = differenceInDays(new Date(), new Date(deal.updated_at_c || deal.created_at_c));
   return (
     <motion.div
       layout
@@ -31,25 +30,25 @@ const DealCard = ({ deal, contact, onDragStart, onEdit }) => {
       >
         <div className="flex items-start justify-between mb-2">
           <h4 className="text-sm font-semibold text-slate-800 line-clamp-2">
-            {deal.title}
+{deal.title_c}
           </h4>
           <ApperIcon name="GripVertical" size={16} className="text-slate-400 flex-shrink-0 ml-2" />
         </div>
         
-        <p className="text-xs text-secondary mb-3">{contact?.company || "No company"}</p>
+<p className="text-xs text-secondary mb-3">{contact?.company_c || contact?.Name || "No company"}</p>
         
         <div className="flex items-center justify-between text-xs">
           <span className="font-bold text-accent text-lg">
-            ${deal.value.toLocaleString()}
+${deal.value_c?.toLocaleString()}
           </span>
           <Badge variant="default">{daysInStage}d in stage</Badge>
         </div>
 
-        {deal.expectedCloseDate && (
+{deal.expected_close_date_c && (
           <div className="mt-3 pt-3 border-t border-slate-100">
             <div className="flex items-center text-xs text-secondary">
               <ApperIcon name="Calendar" size={12} className="mr-1" />
-              <span>Close: {format(new Date(deal.expectedCloseDate), "MMM dd")}</span>
+              <span>Close: {format(new Date(deal.expected_close_date_c), "MMM dd")}</span>
             </div>
           </div>
         )}
@@ -77,19 +76,20 @@ const PipelineBoard = ({ deals, contacts, onUpdateStage, onEdit }) => {
   };
 
   const handleDrop = async (e, stageId) => {
-    e.preventDefault();
-    if (draggedDeal && draggedDeal.stage !== stageId) {
+e.preventDefault();
+    if (draggedDeal && draggedDeal.stage_c !== stageId) {
       await onUpdateStage(draggedDeal.Id, stageId);
     }
     setDraggedDeal(null);
     setDragOverStage(null);
   };
 
-  const getStageDeals = (stageId) => {
-    return deals.filter(deal => deal.stage === stageId);
+const getStageDeals = (stageId) => {
+    return deals.filter(deal => deal.stage_c === stageId);
   };
 
-  const getStageValue = (stageId) => {
+const getStageValue = (stageId) => {
+    return getStageDeals(stageId).reduce((sum, deal) => sum + (deal.value_c || 0), 0);
     return getStageDeals(stageId).reduce((sum, deal) => sum + deal.value, 0);
   };
 
@@ -122,8 +122,8 @@ const PipelineBoard = ({ deals, contacts, onUpdateStage, onEdit }) => {
               </div>
 
               <div className="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
-                {stageDeals.map((deal) => {
-                  const contact = contacts.find(c => c.Id === deal.contactId);
+{stageDeals.map((deal) => {
+                  const contact = contacts.find(c => c.Id === (deal.contact_id_c?.Id || deal.contact_id_c));
                   return (
                     <DealCard
                       key={deal.Id}

@@ -6,26 +6,26 @@ import Button from "@/components/atoms/Button";
 import FormField from "@/components/molecules/FormField";
 
 const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    tags: "",
-    notes: ""
+const [formData, setFormData] = useState({
+    name_c: "",
+    email_c: "",
+    phone_c: "",
+    company_c: "",
+    tags_c: "",
+    notes_c: ""
   });
 
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
+useEffect(() => {
     if (contact) {
       setFormData({
-        name: contact.name || "",
-        email: contact.email || "",
-        phone: contact.phone || "",
-        company: contact.company || "",
-        tags: Array.isArray(contact.tags) ? contact.tags.join(", ") : "",
-        notes: contact.notes || ""
+        name_c: contact.name_c || "",
+        email_c: contact.email_c || "",
+        phone_c: contact.phone_c || "",
+        company_c: contact.company_c || "",
+        tags_c: contact.tags_c || "",
+        notes_c: contact.notes_c || ""
       });
     } else {
       setFormData({
@@ -67,8 +67,12 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
     }
 
     const contactData = {
-      ...formData,
-      tags: formData.tags.split(",").map(t => t.trim()).filter(Boolean)
+name_c: formData.name_c,
+      email_c: formData.email_c,
+      phone_c: formData.phone_c,
+      company_c: formData.company_c,
+      tags_c: formData.tags_c,
+      notes_c: formData.notes_c
     };
 
     try {
@@ -115,7 +119,7 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
                 <FormField
                   label="Name"
                   name="name"
-                  value={formData.name}
+value={formData.name_c}
                   onChange={handleChange}
                   error={errors.name}
                   required
@@ -123,7 +127,9 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
                 <FormField
                   label="Email"
                   name="email"
-                  type="email"
+type="email"
+                  name="email_c"
+                  value={formData.email_c}
                   value={formData.email}
                   onChange={handleChange}
                   error={errors.email}
@@ -135,13 +141,15 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
                 <FormField
                   label="Phone"
                   name="phone"
-                  value={formData.phone}
+name="phone_c"
+                  value={formData.phone_c}
                   onChange={handleChange}
                 />
                 <FormField
                   label="Company"
                   name="company"
-                  value={formData.company}
+name="company_c"
+                  value={formData.company_c}
                   onChange={handleChange}
                 />
               </div>
@@ -150,7 +158,8 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
                 <FormField
                   label="Tags (comma separated)"
                   name="tags"
-                  value={formData.tags}
+name="tags_c"
+                  value={formData.tags_c}
                   onChange={handleChange}
                   placeholder="e.g. enterprise, hot-lead, technology"
                 />
@@ -162,7 +171,8 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
                 </label>
                 <textarea
                   name="notes"
-                  value={formData.notes}
+name="notes_c"
+                  value={formData.notes_c}
                   onChange={handleChange}
                   rows={4}
                   className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-slate-400"

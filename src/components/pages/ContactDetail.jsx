@@ -25,7 +25,7 @@ const ContactDetail = () => {
     setLoading(true);
     setError("");
     try {
-      const [contactData, dealsData, activitiesData] = await Promise.all([
+const [contactData, dealsData, activitiesData] = await Promise.all([
         contactService.getById(id),
         dealService.getByContactId(id),
         activityService.getByEntityId("contact", id)
@@ -62,10 +62,10 @@ const ContactDetail = () => {
           <Card className="p-6">
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center space-x-4">
-                <Avatar name={contact.name} size="lg" />
+<Avatar name={contact.name_c} size="lg" />
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-800">{contact.name}</h2>
-                  <p className="text-sm text-secondary">{contact.company}</p>
+                  <h2 className="text-2xl font-bold text-slate-800">{contact.name_c}</h2>
+                  <p className="text-sm text-secondary">{contact.company_c}</p>
                 </div>
               </div>
               <Button variant="outline" onClick={() => navigate(`/contacts`)}>
@@ -79,30 +79,30 @@ const ContactDetail = () => {
                 <ApperIcon name="Mail" size={20} className="text-secondary" />
                 <div>
                   <p className="text-xs text-secondary">Email</p>
-                  <p className="text-sm text-slate-800">{contact.email}</p>
+<p className="text-sm text-slate-800">{contact.email_c}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <ApperIcon name="Phone" size={20} className="text-secondary" />
                 <div>
                   <p className="text-xs text-secondary">Phone</p>
-                  <p className="text-sm text-slate-800">{contact.phone}</p>
+                  <p className="text-sm text-slate-800">{contact.phone_c}</p>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {contact.tags.map((tag) => (
+{(contact.tags_c || '').split(',').filter(Boolean).map((tag) => (
                 <Badge key={tag} variant="primary">
-                  {tag}
+                  {tag.trim()}
                 </Badge>
               ))}
             </div>
 
-            {contact.notes && (
+{contact.notes_c && (
               <div className="mt-6 pt-6 border-t border-slate-200">
                 <h3 className="text-sm font-semibold text-slate-800 mb-2">Notes</h3>
-                <p className="text-sm text-slate-600">{contact.notes}</p>
+                <p className="text-sm text-slate-600">{contact.notes_c}</p>
               </div>
             )}
           </Card>
@@ -114,16 +114,16 @@ const ContactDetail = () => {
             ) : (
               <div className="space-y-3">
                 {deals.map((deal) => (
-                  <div key={deal.Id} className="p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+<div key={deal.Id} className="p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
                     <div className="flex items-start justify-between mb-2">
-                      <h4 className="text-sm font-semibold text-slate-800">{deal.title}</h4>
-                      <Badge variant="primary">{deal.stage}</Badge>
+                      <h4 className="text-sm font-semibold text-slate-800">{deal.title_c}</h4>
+                      <Badge variant="primary">{deal.stage_c}</Badge>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-accent">${deal.value.toLocaleString()}</span>
-                      {deal.expectedCloseDate && (
+                      <span className="text-lg font-bold text-accent">${deal.value_c?.toLocaleString()}</span>
+                      {deal.expected_close_date_c && (
                         <span className="text-xs text-secondary">
-                          Close: {format(new Date(deal.expectedCloseDate), "MMM dd, yyyy")}
+                          Close: {format(new Date(deal.expected_close_date_c), "MMM dd, yyyy")}
                         </span>
                       )}
                     </div>
@@ -142,14 +142,14 @@ const ContactDetail = () => {
             ) : (
               <div className="space-y-4">
                 {activities.map((activity) => (
-                  <div key={activity.Id} className="flex items-start space-x-3">
+<div key={activity.Id} className="flex items-start space-x-3">
                     <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <ApperIcon name="Activity" size={16} className="text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-700">{activity.description}</p>
+                      <p className="text-sm text-slate-700">{activity.description_c}</p>
                       <p className="text-xs text-secondary mt-1">
-                        {format(new Date(activity.timestamp), "MMM dd, yyyy 'at' h:mm a")}
+                        {format(new Date(activity.timestamp_c), "MMM dd, yyyy 'at' h:mm a")}
                       </p>
                     </div>
                   </div>

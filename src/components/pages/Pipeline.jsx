@@ -24,7 +24,7 @@ const loadData = async () => {
     setError("");
     try {
       const [dealsData, contactsData, salesRepsData] = await Promise.all([
-        dealService.getAll(),
+dealService.getAll(),
         contactService.getAll(),
         salesRepService.getAll()
       ]);
@@ -62,21 +62,21 @@ const loadData = async () => {
   const handleSave = async (dealData) => {
     try {
       if (selectedDeal) {
-        await dealService.update(selectedDeal.Id, dealData);
+await dealService.update(selectedDeal.Id, dealData);
         await activityService.create({
-          type: "deal_updated",
-          entityType: "deal",
-          entityId: selectedDeal.Id,
-          description: `Deal '${dealData.title}' updated`
+          type_c: "deal_updated",
+          entity_type_c: "deal",
+          entity_id_c: selectedDeal.Id,
+          description_c: `Deal '${dealData.title_c}' updated`
         });
         toast.success("Deal updated successfully");
       } else {
         const newDeal = await dealService.create(dealData);
         await activityService.create({
-          type: "deal_created",
-          entityType: "deal",
-          entityId: newDeal.Id,
-          description: `Deal '${dealData.title}' created`
+          type_c: "deal_created",
+          entity_type_c: "deal",
+          entity_id_c: newDeal.Id,
+          description_c: `Deal '${dealData.title_c}' created`
         });
         toast.success("Deal created successfully");
       }
@@ -88,14 +88,14 @@ const loadData = async () => {
   };
 
   const handleUpdateStage = async (dealId, newStage) => {
-    try {
+try {
       const deal = deals.find(d => d.Id === dealId);
       await dealService.updateStage(dealId, newStage);
       await activityService.create({
-        type: "deal_stage_updated",
-        entityType: "deal",
-        entityId: dealId,
-        description: `Deal moved to ${newStage} stage`
+        type_c: "deal_stage_updated",
+        entity_type_c: "deal",
+        entity_id_c: dealId,
+        description_c: `Deal moved to ${newStage} stage`
       });
       toast.success(`Deal moved to ${newStage}`);
       loadData();

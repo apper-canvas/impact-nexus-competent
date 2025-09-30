@@ -19,7 +19,7 @@ const Contacts = ({ onCreateContact, createContactTrigger }) => {
     setLoading(true);
     setError("");
     try {
-      const data = await contactService.getAll();
+const data = await contactService.getAll();
       setContacts(data);
     } catch (err) {
       setError("Failed to load contacts");
@@ -51,21 +51,21 @@ const Contacts = ({ onCreateContact, createContactTrigger }) => {
 
   const handleSave = async (contactData) => {
     try {
-      if (selectedContact) {
+if (selectedContact) {
         await contactService.update(selectedContact.Id, contactData);
         await activityService.create({
-          type: "contact_updated",
-          entityType: "contact",
-          entityId: selectedContact.Id,
-          description: `Contact ${contactData.name} updated`
+          type_c: "contact_updated",
+          entity_type_c: "contact",
+          entity_id_c: selectedContact.Id,
+          description_c: `Contact ${contactData.name_c} updated`
         });
         toast.success("Contact updated successfully");
       } else {
         const newContact = await contactService.create(contactData);
         await activityService.create({
-          type: "contact_created",
-          entityType: "contact",
-          entityId: newContact.Id,
+          type_c: "contact_created",
+          entity_type_c: "contact",
+          entity_id_c: newContact.Id,
           description: `Contact ${contactData.name} created`
         });
         toast.success("Contact created successfully");
@@ -81,7 +81,7 @@ const Contacts = ({ onCreateContact, createContactTrigger }) => {
     if (!window.confirm("Are you sure you want to delete this contact?")) return;
     
     try {
-      await contactService.delete(id);
+await contactService.delete(id);
       toast.success("Contact deleted successfully");
       loadContacts();
     } catch (err) {
@@ -119,7 +119,7 @@ const Contacts = ({ onCreateContact, createContactTrigger }) => {
         />
       )}
 
-      <ContactModal
+<ContactModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         contact={selectedContact}

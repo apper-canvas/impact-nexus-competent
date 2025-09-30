@@ -22,7 +22,7 @@ const Dashboard = () => {
     setLoading(true);
     setError("");
     try {
-      const [contactsData, dealsData, activitiesData] = await Promise.all([
+const [contactsData, dealsData, activitiesData] = await Promise.all([
         contactService.getAll(),
         dealService.getAll(),
         activityService.getAll(10)
@@ -44,13 +44,13 @@ const Dashboard = () => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
 
-  const activeDeals = deals.filter(d => d.stage !== "Closed");
-  const totalPipelineValue = activeDeals.reduce((sum, deal) => sum + deal.value, 0);
-  const closedDeals = deals.filter(d => d.stage === "Closed");
+const activeDeals = deals.filter(d => d.stage_c !== "Closed");
+  const totalPipelineValue = activeDeals.reduce((sum, deal) => sum + deal.value_c, 0);
+  const closedDeals = deals.filter(d => d.stage_c === "Closed");
   const conversionRate = deals.length > 0 ? ((closedDeals.length / deals.length) * 100).toFixed(1) : 0;
 
-  const recentContacts = [...contacts]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+const recentContacts = [...contacts]
+    .sort((a, b) => new Date(b.created_at_c) - new Date(a.created_at_c))
     .slice(0, 5);
 
   return (
@@ -105,14 +105,14 @@ const Dashboard = () => {
             <div className="space-y-3">
               {recentContacts.map((contact) => (
                 <div
-                  key={contact.Id}
+key={contact.Id}
                   className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center space-x-3">
-                    <Avatar name={contact.name} size="md" />
+                    <Avatar name={contact.name_c} size="md" />
                     <div>
-                      <p className="text-sm font-medium text-slate-800">{contact.name}</p>
-                      <p className="text-xs text-secondary">{contact.company}</p>
+                      <p className="text-sm font-medium text-slate-800">{contact.name_c}</p>
+                      <p className="text-xs text-secondary">{contact.company_c}</p>
                     </div>
                   </div>
                   <div className="flex gap-1">
@@ -145,9 +145,9 @@ const Dashboard = () => {
         <Card className="p-6">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">Pipeline Summary</h3>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {["Lead", "Qualified", "Proposal", "Negotiation", "Closed"].map((stage) => {
-              const stageDeals = deals.filter(d => d.stage === stage);
-              const stageValue = stageDeals.reduce((sum, d) => sum + d.value, 0);
+{["Lead", "Qualified", "Proposal", "Negotiation", "Closed"].map((stage) => {
+              const stageDeals = deals.filter(d => d.stage_c === stage);
+              const stageValue = stageDeals.reduce((sum, d) => sum + d.value_c, 0);
               return (
                 <div key={stage} className="text-center p-4 bg-slate-50 rounded-lg">
                   <p className="text-xs font-medium text-secondary mb-2">{stage}</p>

@@ -1,17 +1,26 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AuthContext } from "@/App";
+import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
-import ApperIcon from "@/components/ApperIcon";
-
 const Header = ({ onCreateContact, onCreateDeal }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const { user, logout } = useContext(AuthContext);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     // In a real app, this would filter the current view
+  };
+
+  const handleLogout = () => {
+    if (logout) {
+      logout();
+    }
+    navigate("/login");
   };
 
   return (
@@ -33,7 +42,7 @@ const Header = ({ onCreateContact, onCreateDeal }) => {
           />
         </div>
 
-        <div className="flex items-center space-x-3">
+<div className="flex items-center space-x-3">
           {location.pathname === "/contacts" && (
             <Button onClick={onCreateContact}>
               <ApperIcon name="Plus" size={16} className="mr-2" />
@@ -46,10 +55,20 @@ const Header = ({ onCreateContact, onCreateDeal }) => {
               New Deal
             </Button>
           )}
+          <div className="flex items-center space-x-2">
+            {user && (
+              <span className="text-sm text-slate-600 hidden sm:inline">
+                {user.firstName} {user.lastName}
+              </span>
+            )}
+            <Button variant="secondary" size="sm" onClick={handleLogout}>
+              <ApperIcon name="LogOut" size={16} className="mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
     </header>
-  );
+);
 };
-
 export default Header;

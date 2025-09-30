@@ -8,28 +8,28 @@ import FormField from "@/components/molecules/FormField";
 const STAGES = ["Lead", "Qualified", "Proposal", "Negotiation", "Closed"];
 
 const DealModal = ({ isOpen, onClose, deal, contacts, salesReps, onSave }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    contactId: "",
-    salesRepId: "",
-    stage: "Lead",
-    value: "",
-    expectedCloseDate: "",
-    notes: ""
+const [formData, setFormData] = useState({
+    title_c: "",
+    contact_id_c: "",
+    sales_rep_id_c: "",
+    stage_c: "Lead",
+    value_c: "",
+    expected_close_date_c: "",
+    notes_c: ""
   });
 
   const [errors, setErrors] = useState({});
 
 useEffect(() => {
-    if (deal) {
+if (deal) {
       setFormData({
-        title: deal.title || "",
-        contactId: deal.contactId?.toString() || "",
-        salesRepId: deal.salesRepId?.toString() || "",
-        stage: deal.stage || "Lead",
-        value: deal.value?.toString() || "",
-        expectedCloseDate: deal.expectedCloseDate || "",
-        notes: deal.notes || ""
+        title_c: deal.title_c || "",
+        contact_id_c: deal.contact_id_c?.Id?.toString() || deal.contact_id_c?.toString() || "",
+        sales_rep_id_c: deal.sales_rep_id_c?.Id?.toString() || deal.sales_rep_id_c?.toString() || "",
+        stage_c: deal.stage_c || "Lead",
+        value_c: deal.value_c?.toString() || "",
+        expected_close_date_c: deal.expected_close_date_c || "",
+        notes_c: deal.notes_c || ""
       });
 } else {
       setFormData({
@@ -70,10 +70,13 @@ useEffect(() => {
       return;
     }
 const dealData = {
-      ...formData,
-      contactId: parseInt(formData.contactId),
-      salesRepId: formData.salesRepId ? parseInt(formData.salesRepId) : undefined,
-      value: parseFloat(formData.value)
+      title_c: formData.title_c,
+      contact_id_c: parseInt(formData.contact_id_c),
+      sales_rep_id_c: formData.sales_rep_id_c ? parseInt(formData.sales_rep_id_c) : undefined,
+      stage_c: formData.stage_c,
+      value_c: parseFloat(formData.value_c),
+      expected_close_date_c: formData.expected_close_date_c || undefined,
+      notes_c: formData.notes_c || undefined
     };
 
     try {
@@ -120,7 +123,7 @@ className="fixed inset-0 bg-black/50 z-[100]"
                 <FormField
                   label="Deal Title"
                   name="title"
-                  value={formData.title}
+value={formData.title_c}
                   onChange={handleChange}
                   error={errors.title}
                   required
@@ -135,15 +138,15 @@ className="fixed inset-0 bg-black/50 z-[100]"
                     <span className="text-error ml-1">*</span>
                   </label>
                   <select
-                    name="contactId"
-                    value={formData.contactId}
+name="contact_id_c"
+                    value={formData.contact_id_c}
                     onChange={handleChange}
                     className="w-full h-10 px-3 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
                     <option value="">Select a contact</option>
                     {contacts.map((contact) => (
                       <option key={contact.Id} value={contact.Id}>
-                        {contact.name} - {contact.company}
+                        {contact.name_c} - {contact.company_c}
                       </option>
                     ))}
                   </select>
@@ -158,7 +161,7 @@ className="fixed inset-0 bg-black/50 z-[100]"
                   </label>
                   <select
                     name="stage"
-                    value={formData.stage}
+value={formData.stage_c}
                     onChange={handleChange}
                     className="w-full h-10 px-3 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
@@ -177,13 +180,13 @@ className="fixed inset-0 bg-black/50 z-[100]"
                 <select
                   name="salesRepId"
                   value={formData.salesRepId}
-                  onChange={handleChange}
+onChange={handleChange}
                   className="w-full h-10 px-3 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   <option value="">Select a sales rep</option>
                   {salesReps.map((salesRep) => (
                     <option key={salesRep.Id} value={salesRep.Id}>
-                      {salesRep.name} - {salesRep.title}
+                      {salesRep.name_c} - {salesRep.title_c}
                     </option>
                   ))}
 </select>
@@ -194,7 +197,9 @@ className="fixed inset-0 bg-black/50 z-[100]"
               <FormField
                 label="Deal Value"
                 name="value"
-                type="number"
+type="number"
+                name="value_c"
+                value={formData.value_c}
                 value={formData.value}
                 onChange={handleChange}
                 error={errors.value}
@@ -204,7 +209,9 @@ className="fixed inset-0 bg-black/50 z-[100]"
               <FormField
                 label="Expected Close Date"
                 name="expectedCloseDate"
-                type="date"
+type="date"
+                name="expected_close_date_c"
+                value={formData.expected_close_date_c}
                 value={formData.expectedCloseDate}
                 onChange={handleChange}
               />
@@ -214,7 +221,8 @@ className="fixed inset-0 bg-black/50 z-[100]"
                   Notes
                 </label>
                 <textarea
-                  name="notes"
+name="notes_c"
+                  value={formData.notes_c}
                   value={formData.notes}
                   onChange={handleChange}
                   rows={4}
