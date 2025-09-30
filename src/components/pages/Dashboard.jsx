@@ -114,9 +114,9 @@ key={contact.Id}
                       <p className="text-sm font-medium text-slate-800">{contact.name_c}</p>
                       <p className="text-xs text-secondary">{contact.company_c}</p>
                     </div>
-                  </div>
+</div>
                   <div className="flex gap-1">
-                    {contact.tags.slice(0, 2).map((tag) => (
+                    {(contact.tags?.slice(0, 2) ?? []).map((tag) => (
                       <Badge key={tag} variant="default">
                         {tag}
                       </Badge>
