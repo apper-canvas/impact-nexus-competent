@@ -90,7 +90,6 @@ const getStageDeals = (stageId) => {
 
 const getStageValue = (stageId) => {
     return getStageDeals(stageId).reduce((sum, deal) => sum + (deal.value_c || 0), 0);
-    return getStageDeals(stageId).reduce((sum, deal) => sum + deal.value, 0);
   };
 
   return (
