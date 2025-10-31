@@ -14,7 +14,7 @@ const STAGES = [
 
 const DealCard = ({ deal, contact, onDragStart, onEdit }) => {
   const dateToCheck = deal.updated_at_c || deal.created_at_c;
-  const isValidDate = dateToCheck && !isNaN(new Date(dateToCheck)) && isValid(new Date(dateToCheck));
+  const isValidDate = dateToCheck && isValid(new Date(dateToCheck));
   const daysInStage = isValidDate ? differenceInDays(new Date(), new Date(dateToCheck)) : 0;
   return (
     <motion.div
@@ -43,9 +43,9 @@ const DealCard = ({ deal, contact, onDragStart, onEdit }) => {
 ${deal.value_c?.toLocaleString()}
           </span>
           <Badge variant="default">{daysInStage}d in stage</Badge>
-        </div>
+</div>
 
-{deal.expected_close_date_c && !isNaN(new Date(deal.expected_close_date_c)) && isValid(new Date(deal.expected_close_date_c)) && (
+        {deal.expected_close_date_c && isValid(new Date(deal.expected_close_date_c)) && (
           <div className="mt-3 pt-3 border-t border-slate-100">
             <div className="flex items-center text-xs text-secondary">
               <ApperIcon name="Calendar" size={12} className="mr-1" />

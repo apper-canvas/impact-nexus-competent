@@ -121,7 +121,7 @@ const [contactData, dealsData, activitiesData] = await Promise.all([
                     </div>
 <div className="flex items-center justify-between">
                       <span className="text-lg font-bold text-accent">${deal.value_c?.toLocaleString()}</span>
-                      {deal.expected_close_date_c && !isNaN(new Date(deal.expected_close_date_c)) && isValid(new Date(deal.expected_close_date_c)) && (
+                      {deal.expected_close_date_c && isValid(new Date(deal.expected_close_date_c)) && (
                         <span className="text-xs text-secondary">
                           Close: {format(new Date(deal.expected_close_date_c), "MMM dd, yyyy")}
                         </span>
@@ -147,9 +147,9 @@ const [contactData, dealsData, activitiesData] = await Promise.all([
                       <ApperIcon name="Activity" size={16} className="text-primary" />
 </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-700">{activity.description_c}</p>
+<p className="text-sm text-slate-700">{activity.description_c}</p>
                       <p className="text-xs text-secondary mt-1">
-                        {activity.timestamp_c && !isNaN(new Date(activity.timestamp_c)) && isValid(new Date(activity.timestamp_c)) 
+                        {activity.timestamp_c && isValid(new Date(activity.timestamp_c)) 
                           ? format(new Date(activity.timestamp_c), "MMM dd, yyyy 'at' h:mm a")
                           : "N/A"}
                       </p>

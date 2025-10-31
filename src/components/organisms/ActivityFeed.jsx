@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, isValid } from "date-fns";
 import Card from "@/components/atoms/Card";
 import ApperIcon from "@/components/ApperIcon";
 import { motion } from "framer-motion";
@@ -33,7 +33,7 @@ const ActivityFeed = ({ activities }) => {
             <div className="flex-1 min-w-0">
               <p className="text-sm text-slate-700">{activity.description}</p>
               <p className="text-xs text-secondary mt-1">
-{activity.timestamp && !isNaN(new Date(activity.timestamp)) ? formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true }) : "Just now"}
+{activity.timestamp && isValid(new Date(activity.timestamp)) ? formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true }) : "Just now"}
               </p>
             </div>
           </motion.div>
