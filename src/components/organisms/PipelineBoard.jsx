@@ -3,8 +3,7 @@ import { motion } from "framer-motion";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
 import ApperIcon from "@/components/ApperIcon";
-import { format, differenceInDays } from "date-fns";
-
+import { format, differenceInDays, isValid } from "date-fns";
 const STAGES = [
   { id: "Lead", label: "Lead", color: "bg-slate-100" },
   { id: "Qualified", label: "Qualified", color: "bg-blue-100" },
@@ -14,7 +13,9 @@ const STAGES = [
 ];
 
 const DealCard = ({ deal, contact, onDragStart, onEdit }) => {
-const daysInStage = differenceInDays(new Date(), new Date(deal.updated_at_c || deal.created_at_c));
+  const dateToCheck = deal.updated_at_c || deal.created_at_c;
+  const isValidDate = dateToCheck && !isNaN(new Date(dateToCheck)) && isValid(new Date(dateToCheck));
+  const daysInStage = isValidDate ? differenceInDays(new Date(), new Date(dateToCheck)) : 0;
   return (
     <motion.div
       layout
@@ -44,7 +45,7 @@ ${deal.value_c?.toLocaleString()}
           <Badge variant="default">{daysInStage}d in stage</Badge>
         </div>
 
-{deal.expected_close_date_c && (
+{deal.expected_close_date_c && !isNaN(new Date(deal.expected_close_date_c)) && isValid(new Date(deal.expected_close_date_c)) && (
           <div className="mt-3 pt-3 border-t border-slate-100">
             <div className="flex items-center text-xs text-secondary">
               <ApperIcon name="Calendar" size={12} className="mr-1" />

@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import Badge from "@/components/atoms/Badge";
-import Avatar from "@/components/molecules/Avatar";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { contactService } from "@/services/api/contactService";
 import { dealService } from "@/services/api/dealService";
 import { activityService } from "@/services/api/activityService";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
+import Avatar from "@/components/molecules/Avatar";
 
 const ContactDetail = () => {
   const { id } = useParams();
@@ -119,9 +119,9 @@ const [contactData, dealsData, activitiesData] = await Promise.all([
                       <h4 className="text-sm font-semibold text-slate-800">{deal.title_c}</h4>
                       <Badge variant="primary">{deal.stage_c}</Badge>
                     </div>
-                    <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
                       <span className="text-lg font-bold text-accent">${deal.value_c?.toLocaleString()}</span>
-                      {deal.expected_close_date_c && (
+                      {deal.expected_close_date_c && !isNaN(new Date(deal.expected_close_date_c)) && isValid(new Date(deal.expected_close_date_c)) && (
                         <span className="text-xs text-secondary">
                           Close: {format(new Date(deal.expected_close_date_c), "MMM dd, yyyy")}
                         </span>
@@ -145,11 +145,13 @@ const [contactData, dealsData, activitiesData] = await Promise.all([
 <div key={activity.Id} className="flex items-start space-x-3">
                     <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <ApperIcon name="Activity" size={16} className="text-primary" />
-                    </div>
+</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-slate-700">{activity.description_c}</p>
                       <p className="text-xs text-secondary mt-1">
-                        {format(new Date(activity.timestamp_c), "MMM dd, yyyy 'at' h:mm a")}
+                        {activity.timestamp_c && !isNaN(new Date(activity.timestamp_c)) && isValid(new Date(activity.timestamp_c)) 
+                          ? format(new Date(activity.timestamp_c), "MMM dd, yyyy 'at' h:mm a")
+                          : "N/A"}
                       </p>
                     </div>
                   </div>
